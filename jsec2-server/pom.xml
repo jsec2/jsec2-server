@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>jsec2-server</name>
-	<description>Servidor de Autentica��o e Authoriza��o </description>
+	<description>Servidor de Autenticação e Authorização </description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -33,10 +33,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
+		<!-- 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		 -->
+		 <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
