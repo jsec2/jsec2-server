@@ -2,6 +2,8 @@ package br.jsec2.service;
 
 import org.springframework.stereotype.Service;
 
+import br.jsec2.model.PolicyModel;
+
 @Service
 public class PolicyService {
 

@@ -1,4 +1,4 @@
-package br.jsec2.service;
+package br.jsec2.model;
 
 import java.io.Serializable;
 
