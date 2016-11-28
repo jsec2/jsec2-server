@@ -2,7 +2,7 @@ package br.jsec2.domain;
 
 import org.springframework.data.domain.Persistable;
 
-public class Policy implements Persistable<Long> {
+public class Policy implements Persistable<Long>, Sequenceable {
 
 	/**
 	 * 
@@ -113,4 +113,5 @@ public class Policy implements Persistable<Long> {
 		return id == null;
 	}
 
+	
 }

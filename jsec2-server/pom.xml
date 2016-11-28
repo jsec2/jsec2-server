@@ -44,6 +44,20 @@
 			<systemPath>${basedir}/src/main/resources/libs/ojdbc6-11.2.0.3.0.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>xdb</artifactId>
+			<version>10.1.0.2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/libs/xdb.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>xmlparserv2</artifactId>
+			<version>10.1.0.2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/libs/xmlparserv2.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -67,6 +81,12 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-oracle</artifactId>
 			<version>1.2.1.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>4.3.3.RELEASE</version>
 		</dependency>
 	</dependencies>
 

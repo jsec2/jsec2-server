@@ -1,11 +1,8 @@
 package br.jsec2.domain;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.data.domain.Persistable;
 
-public class Jsec2User implements Persistable<Long> {
+public class Jsec2User implements Persistable<Long>, Sequenceable {
 
 	/**
 	 * 
@@ -20,9 +17,9 @@ public class Jsec2User implements Persistable<Long> {
 
 	private String passwd;
 
-	private Map<String, Object> properties;
+	private Property properties;
 
-	private Boolean enabled;
+	private Integer enabled;
 
 	public Long getId() {
 		return id;
@@ -56,22 +53,19 @@ public class Jsec2User implements Persistable<Long> {
 		this.passwd = passwd;
 	}
 
-	public Map<String, Object> getProperties() {
-		if (this.properties == null) {
-			this.properties = new HashMap<>();
-		}
+	public Property getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Map<String, Object> properties) {
+	public void setProperties(Property properties) {
 		this.properties = properties;
 	}
 
-	public Boolean getEnabled() {
+	public Integer getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
+	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
 	}
 

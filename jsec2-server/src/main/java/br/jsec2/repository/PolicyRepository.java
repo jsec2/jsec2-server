@@ -2,6 +2,7 @@ package br.jsec2.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import br.jsec2.domain.Policy;
 @Repository
 public class PolicyRepository extends JdbcRepository<Policy, Long> {
 
-	public PolicyRepository(RowMapper<Policy> rowMapper, RowUnmapper<Policy> rowUnmapper, TableDescription table) {
+	public PolicyRepository() {
 		super(ROW_MAPPER, ROW_UNMAPPER, new TableDescription("POLICY", "ID"));
 	}
 
@@ -44,8 +45,11 @@ public class PolicyRepository extends JdbcRepository<Policy, Long> {
 	public static final RowUnmapper<Policy> ROW_UNMAPPER = new RowUnmapper<Policy>() {
 
 		@Override
-		public Map<String, Object> mapColumns(Policy arg0) {
-			return null;
+		public Map<String, Object> mapColumns(Policy entity) {
+			Map<String, Object> columns = new LinkedHashMap<>();
+			columns.put("ID", entity.getId());
+			columns.put("ENABLED", entity.getEnabled());
+			return columns;
 		}
 	};
 
@@ -65,6 +69,12 @@ public class PolicyRepository extends JdbcRepository<Policy, Long> {
 		// @formatter:on
 		Object[] params = new Object[] { applicationId };
 		return this.getJdbcOperations().query(query, params, ROW_MAPPER);
+	}
+
+	@Override
+	protected Map<String, Object> preCreate(Map<String, Object> columns, Policy entity) {
+		columns.put("ID", this.getJdbcOperations().queryForObject(entity.getNextValSQL(), Long.class));
+		return columns;
 	}
 
 }
