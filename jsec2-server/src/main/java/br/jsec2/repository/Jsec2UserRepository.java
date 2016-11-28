@@ -1,8 +1,8 @@
 package br.jsec2.repository;
 
-import java.awt.event.ItemEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -45,13 +45,13 @@ public class Jsec2UserRepository extends JdbcRepository<Jsec2User, Long> {
 			jsec2User.setName(rs.getString("NAME"));
 			jsec2User.setEnabled(rs.getInt("ENABLED"));
 			jsec2User.setPasswd(rs.getString("PASSWD"));
-			/*
-			 * OracleXmlObjectMappingHandler mappingHandler = new
-			 * OracleXmlObjectMappingHandler();
-			 * mappingHandler.setUnmarshaller(new Jaxb2Marshaller());
-			 * jsec2User.setProperties((Property)
-			 * mappingHandler.getXmlAsObject(rs, "USR_PROPERTIES"));
-			 */
+
+			OracleXmlObjectMappingHandler mappingHandler = new OracleXmlObjectMappingHandler();
+			Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+			marshaller.setClassesToBeBound(Property.class);
+			mappingHandler.setUnmarshaller(marshaller);
+			jsec2User.setProperties((Property) mappingHandler.getXmlAsObject(rs, "USR_PROPERTIES"));
+
 			return jsec2User;
 		}
 	};
@@ -71,6 +71,11 @@ public class Jsec2UserRepository extends JdbcRepository<Jsec2User, Long> {
 			map.put("PASSWD", jsec2User.getPasswd());
 			OracleXmlObjectMappingHandler mappingHandler = new OracleXmlObjectMappingHandler();
 			Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+			
+			Map<String, Object>  marshallerProp = new HashMap<>();
+			marshallerProp.put("jaxb.formatted.output", true);
+			marshaller.setMarshallerProperties(marshallerProp);
+			
 			marshaller.setClassesToBeBound(Property.class);
 			mappingHandler.setMarshaller(marshaller);
 			map.put("USR_PROPERTIES", mappingHandler.newMarshallingSqlXmlValue(jsec2User.getProperties()));
