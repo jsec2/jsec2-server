@@ -1,11 +1,14 @@
 package br.jsec2.repository;
 
+import java.awt.event.ItemEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.data.jdbc.support.oracle.OracleXmlObjectMappingHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Repository;
 
 import com.nurkiewicz.jdbcrepository.JdbcRepository;
@@ -13,7 +16,7 @@ import com.nurkiewicz.jdbcrepository.RowUnmapper;
 import com.nurkiewicz.jdbcrepository.TableDescription;
 
 import br.jsec2.domain.Jsec2User;
-import oracle.net.aso.e;
+import br.jsec2.domain.Property;
 
 /**
  * Jsec2User Repository.
@@ -61,18 +64,17 @@ public class Jsec2UserRepository extends JdbcRepository<Jsec2User, Long> {
 		@Override
 		public Map<String, Object> mapColumns(Jsec2User jsec2User) {
 			Map<String, Object> map = new LinkedHashMap<>();
-			//map.put("ID", jsec2User.getId());
+			map.put("ID", jsec2User.getId());
 			map.put("LOGIN", jsec2User.getLogin());
 			map.put("NAME", jsec2User.getName());
 			map.put("ENABLED", jsec2User.getEnabled());
 			map.put("PASSWD", jsec2User.getPasswd());
-			/*
-			 * OracleXmlObjectMappingHandler mappingHandler = new
-			 * OracleXmlObjectMappingHandler(); mappingHandler.setMarshaller(new
-			 * Jaxb2Marshaller()); map.put("USR_PROPERTIES",
-			 * mappingHandler.newMarshallingSqlXmlValue(jsec2User.getProperties(
-			 * )));
-			 */
+			OracleXmlObjectMappingHandler mappingHandler = new OracleXmlObjectMappingHandler();
+			Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+			marshaller.setClassesToBeBound(Property.class);
+			mappingHandler.setMarshaller(marshaller);
+			map.put("USR_PROPERTIES", mappingHandler.newMarshallingSqlXmlValue(jsec2User.getProperties()));
+
 			return map;
 		}
 	};
@@ -80,7 +82,7 @@ public class Jsec2UserRepository extends JdbcRepository<Jsec2User, Long> {
 	@Override
 	protected Map<String, Object> preCreate(Map<String, Object> columns, Jsec2User entity) {
 		entity.setId(this.getJdbcOperations().queryForObject(entity.getNextValSQL(), Long.class));
-		System.out.println("ID: "+entity.getId());
+		System.out.println("ID: " + entity.getId());
 		columns.put("ID", entity.getId());
 		return columns;
 	}
@@ -90,7 +92,5 @@ public class Jsec2UserRepository extends JdbcRepository<Jsec2User, Long> {
 		System.out.println("CREATE!!!!!!!!!!!!");
 		return super.create(entity);
 	}
-	
-	
 
 }

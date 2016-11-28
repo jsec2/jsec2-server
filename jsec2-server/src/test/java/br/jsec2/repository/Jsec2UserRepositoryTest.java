@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.jsec2.domain.Jsec2User;
+import br.jsec2.domain.Property;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,7 +33,7 @@ public class Jsec2UserRepositoryTest {
 		properties.put("FUNCAO", "CHEFE_SECAO");
 		properties.put("EMAIL", "jcruz@tre-pa.gov.br");
 
-		//jsec2User.setProperties(new Property(properties));
+		jsec2User.setProperties(new Property(properties));
 		
 		jsec2UserRepository.save(jsec2User);
 	}
